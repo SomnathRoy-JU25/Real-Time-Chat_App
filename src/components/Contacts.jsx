@@ -25,7 +25,7 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>snappy</h3>
+            <h3 className="text-white text-2xl font-bold tracking-wider">Rapid-Chat</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -66,6 +66,7 @@ export default function Contacts({ contacts, changeChat }) {
     </>
   );
 }
+
 const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
@@ -81,7 +82,6 @@ const Container = styled.div`
     }
     h3 {
       color: white;
-      text-transform: uppercase;
     }
   }
   .contacts {

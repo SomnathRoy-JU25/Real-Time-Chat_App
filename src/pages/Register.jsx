@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,6 +15,7 @@ export default function Register() {
     draggable: true,
     theme: "dark",
   };
+
   const [values, setValues] = useState({
     username: "",
     email: "",
@@ -57,7 +57,6 @@ export default function Register() {
       toast.error("Email is required.", toastOptions);
       return false;
     }
-
     return true;
   };
 
@@ -65,6 +64,7 @@ export default function Register() {
     event.preventDefault();
     if (handleValidation()) {
       const { email, username, password } = values;
+      // API CALL from BACK-END
       const { data } = await axios.post(registerRoute, {
         username,
         email,
@@ -86,112 +86,60 @@ export default function Register() {
 
   return (
     <>
-      <FormContainer>
-        <form action="" onSubmit={(event) => handleSubmit(event)}>
-          <div className="brand">
-            <img src={Logo} alt="logo" />
-            <h1>snappy</h1>
-          </div>
+      <div className="h-screen w-screen flex flex-col justify-center items-center gap-4 bg-purple-950">
+        <div className="brand flex items-center gap-4 justify-center pt-10">
+          <img src={Logo} alt="logo" className="h-12" />
+          <h1 className="text-white text-3xl font-bold tracking-wider">
+            Rapid-Chat
+          </h1>
+        </div>
+        <form
+          onSubmit={(event) => handleSubmit(event)}
+          className="flex flex-col gap-8 bg-black bg-opacity-60 rounded-xl p-12"
+        >
           <input
             type="text"
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
           />
           <input
             type="email"
             placeholder="Email"
             name="email"
             onChange={(e) => handleChange(e)}
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
           />
           <input
             type="password"
             placeholder="Password"
             name="password"
             onChange={(e) => handleChange(e)}
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
           />
           <input
             type="password"
             placeholder="Confirm Password"
             name="confirmPassword"
             onChange={(e) => handleChange(e)}
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
           />
-          <button type="submit">Create User</button>
-          <span>
-            Already have an account ? <Link to="/login">Login.</Link>
+          <button
+            type="submit"
+            className="bg-purple-600 text-white py-4 px-8 font-bold uppercase rounded-lg cursor-pointer hover:bg-purple-700"
+          >
+            Create User
+          </button>
+          <span className="text-white uppercase">
+            Already have an account ?{" "}
+            <Link to="/login" className="font-bold text-purple-600">
+              Login.
+            </Link>
           </span>
         </form>
-      </FormContainer>
+      </div>
       <ToastContainer />
     </>
   );
 }
-
-const FormContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  align-items: center;
-  background-color: #131324;
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: center;
-    img {
-      height: 5rem;
-    }
-    h1 {
-      color: white;
-      text-transform: uppercase;
-    }
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    background-color: #00000076;
-    border-radius: 2rem;
-    padding: 3rem 5rem;
-  }
-  input {
-    background-color: transparent;
-    padding: 1rem;
-    border: 0.1rem solid #4e0eff;
-    border-radius: 0.4rem;
-    color: white;
-    width: 100%;
-    font-size: 1rem;
-    &:focus {
-      border: 0.1rem solid #997af0;
-      outline: none;
-    }
-  }
-  button {
-    background-color: #4e0eff;
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 0.4rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    &:hover {
-      background-color: #4e0eff;
-    }
-  }
-  span {
-    color: white;
-    text-transform: uppercase;
-    a {
-      color: #4e0eff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  }
-`;
