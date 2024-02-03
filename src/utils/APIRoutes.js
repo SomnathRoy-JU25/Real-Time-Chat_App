@@ -1,4 +1,4 @@
-export const host = "https://chat-app-backend-3y41.onrender.com/";
+export const host = process.env.REACT_APP_BASE_URL;
 export const loginRoute = `${host}/api/auth/login`;
 export const registerRoute = `${host}/api/auth/register`;
 export const logoutRoute = `${host}/api/auth/logout`;
