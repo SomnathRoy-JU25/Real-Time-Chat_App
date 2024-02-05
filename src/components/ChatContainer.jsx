@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
+import notificationSound from "../assets/sounds/notification.mp3";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
@@ -15,6 +16,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
+    // Api Call
     const response = await axios.post(recieveMessageRoute, {
       from: data._id,
       to: currentChat._id,
@@ -33,44 +35,63 @@ export default function ChatContainer({ currentChat, socket }) {
     getCurrentChat();
   }, [currentChat]);
 
+  // This function is responsible for sending a message.
   const handleSendMsg = async (msg) => {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
+
+    // It makes an asynchronous POST request to a backend endpoint
+    await axios.post(sendMessageRoute, {
+      from: data._id, // sender's ID 
+      to: currentChat._id, // recipient's ID
+      message: msg, // message content.
+    });
+
+    // It emits a "send-msg" event to the Socket.IO server, passing the recipient's ID, 
+    // sender's ID, and the message content.
     socket.current.emit("send-msg", {
       to: currentChat._id,
       from: data._id,
       msg,
     });
-    await axios.post(sendMessageRoute, {
-      from: data._id,
-      to: currentChat._id,
-      message: msg,
-    });
-
+    // It updates the local state (messages) with the sent message, marking it as coming from 
+    // the user (fromSelf: true)
     const msgs = [...messages];
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
 
+  
+  // This useEffect sets up an event listener for the "msg-recieve" event from the Socket.IO server.
+  // When a message is received, it updates the local state (arrivalMessage) with the received message.
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
+        // For Sound
+        const sound = new Audio(notificationSound);
+        sound.play();
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
   }, []);
 
+
+  // This useEffect is triggered when arrivalMessage changes. 
+  // If there is a new arrival message, it updates the local state (messages) with the received message.
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
+  // This useEffect is triggered whenever messages change. 
+  // It scrolls the chat view to the bottom, ensuring that the latest message is visible.
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
-    <Container className="rounded-lg">
+    <Container>
+     {/* Chat Header */}
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
@@ -85,8 +106,10 @@ export default function ChatContainer({ currentChat, socket }) {
         </div>
         <Logout />
       </div>
+   {/* 🛑🛑🛑🛑🛑IMPORTANT PART🛑🛑🛑🛑🛑 */}
+      {/* chat-messages */}
       <div className="chat-messages">
-        {messages.map((message) => {
+        { messages.map((message) => {
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
@@ -102,7 +125,9 @@ export default function ChatContainer({ currentChat, socket }) {
           );
         })}
       </div>
+       {/* ChatInput */}
       <ChatInput handleSendMsg={handleSendMsg} />
+   {/* 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 */}
     </Container>
   );
 }
@@ -126,7 +151,7 @@ const Container = styled.div`
       gap: 1rem;
       .avatar {
         img {
-          height: 3rem;
+          height: 2.3rem;
         }
       }
       .username {

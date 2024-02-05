@@ -19,9 +19,10 @@ export default function Contacts({ contacts, changeChat }) {
     setCurrentSelected(index);
     changeChat(contact);
   };
+
   return (
     <>
-      {currentUserImage && currentUserImage && (
+      {currentUserImage && currentUserName && (
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
@@ -72,6 +73,7 @@ const Container = styled.div`
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
   background-color: #080420;
+  border-radius:1rem;
   .brand {
     display: flex;
     align-items: center;

@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 import styled from "styled-components";
 import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
+import { io } from "socket.io-client"; 
 
 export default function Chat() {
   const navigate = useNavigate();
@@ -26,6 +26,8 @@ export default function Chat() {
     }
   }, []);
   
+  // This code sets up a Socket.IO connection when the currentUser is available (i.e., when a user is logged in).
+  // It emits an "add-user" event to the server to notify the server about the current user's presence.
   useEffect(() => {
     if (currentUser) {
       socket.current = io(host);
@@ -43,9 +45,11 @@ export default function Chat() {
       }
     }
   }, [currentUser]);
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
+  
   return (
     <>
       <Container>
@@ -54,7 +58,7 @@ export default function Chat() {
           {currentChat === undefined ? (
             <Welcome />
           ) : (
-            <ChatContainer currentChat={currentChat} socket={socket} />
+            <ChatContainer currentChat={currentChat} socket={socket} /> //Main Component send props
           )}
         </div>
       </Container>
@@ -77,6 +81,7 @@ const Container = styled.div`
     background-color: #00000076;
     display: grid;
     grid-template-columns: 25% 75%;
+    border-radius:1rem;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;
     }
