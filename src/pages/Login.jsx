@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/ChatLogo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/APIRoutes";
@@ -61,7 +61,8 @@ export default function Login() {
 
   return (
     <>
-      <div className="h-screen w-screen flex flex-col justify-center items-center gap-4 bg-purple-950">
+      <div className="h-screen w-screen flex flex-col justify-center items-center gap-4
+       bg-gray-800">
         <form onSubmit={(event) => handleSubmit(event)} className="flex flex-col gap-8 bg-black bg-opacity-60 rounded-xl p-12">
         <div className="brand flex items-center gap-4 justify-center">
           <img src={Logo} alt="logo" className="h-20" />
@@ -72,7 +73,7 @@ export default function Login() {
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
-            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full focus:outline-none focus:border-blue-700"
             minLength="3"
           />
           <input
@@ -80,7 +81,8 @@ export default function Login() {
             placeholder="Password"
             name="password"
             onChange={(e) => handleChange(e)}
-            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full 
+            focus:outline-none focus:border-blue-700"
           />
           <button type="submit" className="bg-purple-600 text-white py-4 px-8 font-bold uppercase rounded-lg cursor-pointer hover:bg-purple-700">
             Log In

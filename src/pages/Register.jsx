@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/ChatLogo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerRoute } from "../utils/APIRoutes";
@@ -86,44 +86,48 @@ export default function Register() {
 
   return (
     <>
-      <div className="h-screen w-screen flex flex-col justify-center items-center gap-4 bg-purple-950">
-        <div className="brand flex items-center gap-4 justify-center pt-10">
-          <img src={Logo} alt="logo" className="h-12" />
-          <h1 className="text-white text-3xl font-bold tracking-wider">
-            Rapid-Chat
-          </h1>
-        </div>
+      <div
+        className="h-screen w-screen flex flex-col justify-center items-center gap-4
+       bg-gray-800 "
+      >
         <form
           onSubmit={(event) => handleSubmit(event)}
-          className="flex flex-col gap-8 bg-black bg-opacity-60 rounded-xl p-12"
+          className=" flex flex-col gap-8 bg-black bg-opacity-60 rounded-3xl pb-3 pt-3 p-12"
         >
+          <div className="brand flex items-center gap-4 justify-center">
+            <img src={Logo} alt="logo" className="h-12" />
+            <h1 className="text-white text-3xl font-bold tracking-wider">
+              Rapid-Chat
+            </h1>
+          </div>
+
           <input
             type="text"
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
-            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full focus:outline-none focus:border-blue-700"
           />
           <input
             type="email"
             placeholder="Email"
             name="email"
             onChange={(e) => handleChange(e)}
-            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full focus:outline-none focus:border-blue-700"
           />
           <input
             type="password"
             placeholder="Password"
             name="password"
             onChange={(e) => handleChange(e)}
-            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full focus:outline-none focus:border-blue-700"
           />
           <input
             type="password"
             placeholder="Confirm Password"
             name="confirmPassword"
             onChange={(e) => handleChange(e)}
-            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full"
+            className="bg-transparent py-4 px-6 border border-purple-600 rounded-lg text-white w-full focus:outline-none focus:border-blue-700"
           />
           <button
             type="submit"
