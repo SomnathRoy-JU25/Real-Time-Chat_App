@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { BiPowerOff } from "react-icons/bi";
 import axios from "axios";
 import { logoutRoute } from "../utils/APIRoutes";
-
+import { toast } from "react-hot-toast";
 export default function Logout() {
   const navigate = useNavigate();
-
+  
   const handleClick = async () => {
     const id = await JSON.parse(localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))._id;
     const data = await axios.get(`${logoutRoute}/${id}`); // Api Call from Backend
     if (data.status === 200) {
       localStorage.clear();
+      toast.success("Logged out successfully");
       navigate("/login");
     }
   };
